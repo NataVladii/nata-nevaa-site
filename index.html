@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="NATA NEVAA — рекламные фотографии и видеоролики с помощью нейросетей. Необычные визуальные истории для продуктов, брендов и людей.">
+<title>NATA NEVAA — AI-реклама и визуальные истории</title>
+<style>
+:root{--bg:#171717;--bg-soft:#202020;--ivory:#f1eee7;--muted:#aaa59e;--red:#e34b42;--line:rgba(241,238,231,.16);--serif:Georgia,"Times New Roman",serif;--sans:Arial,Helvetica,sans-serif;--container:1240px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px;max-width:100%;overflow-x:clip}
+body{margin:0;width:100%;max-width:100%;overflow-x:clip;background:var(--bg);color:var(--ivory);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+img,video{max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.container{width:min(var(--container),calc(100% - 80px));margin:0 auto}
+.eyebrow{color:var(--red);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.section{padding:120px 0;border-top:1px solid var(--line)}
+.section-heading{max-width:850px;margin-bottom:55px}
+.section-heading h2{margin:18px 0 20px;font-family:var(--serif);font-size:clamp(42px,6vw,78px);font-weight:400;line-height:.98;letter-spacing:-.045em;overflow-wrap:anywhere}
+.section-heading p{max-width:590px;color:var(--muted);font-size:16px;line-height:1.7}
+.accent{color:var(--red)}
+.button{display:inline-flex;min-height:54px;align-items:center;justify-content:center;gap:12px;padding:0 25px;border:1px solid var(--red);background:var(--red);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.25s;cursor:pointer}
+.button:hover{background:transparent;color:var(--ivory)}
+.button-secondary{border-color:var(--line);background:transparent;color:var(--ivory)}
+.button-secondary:hover{border-color:var(--red);background:var(--red);color:#fff}
+.header{position:relative;z-index:20;border-bottom:1px solid var(--line)}
+.header-inner{display:flex;min-height:82px;align-items:center;justify-content:space-between;gap:30px}
+.logo{font-size:17px;font-weight:800;letter-spacing:.16em;white-space:nowrap}
+.logo span{color:var(--red)}
+.nav{display:flex;align-items:center;gap:30px}
+.nav a{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.nav a:hover{color:var(--ivory)}
+.header-contact{color:var(--ivory);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--red);padding-bottom:6px}
+.menu-toggle{display:none;width:42px;height:42px;border:1px solid var(--line);background:transparent;color:var(--ivory);font-size:22px;cursor:pointer}
+.hero{position:relative;padding:76px 0 90px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:55px}
+.hero-copy{min-width:0}
+.hero h1{max-width:760px;margin:25px 0;font-family:var(--serif);font-size:clamp(54px,7.5vw,108px);font-weight:400;line-height:.91;letter-spacing:-.065em;overflow-wrap:anywhere}
+.hero h1 em{color:var(--red);font-weight:400}
+.hero-lead{max-width:520px;margin:28px 0 32px;color:#c5c0b8;font-size:16px;line-height:1.75}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-note{margin-top:25px;color:var(--muted);font-size:11px;line-height:1.6}
+.hero-art{position:relative;display:flex;min-width:0;min-height:510px;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 65% 35%,rgba(227,75,66,.32),transparent 38%),linear-gradient(145deg,#302727,#1d1b1b 60%,#332121)}
+.hero-art:before{position:absolute;width:74%;aspect-ratio:1;border:1px solid rgba(241,238,231,.2);border-radius:50%;content:""}
+.hero-art:after{position:absolute;width:54%;aspect-ratio:1;border:1px solid rgba(241,238,231,.16);border-radius:50%;content:""}
+.hero-art-type{position:relative;z-index:1;max-width:90%;text-align:center;transform:rotate(-8deg)}
+.hero-art-type small{display:block;margin-bottom:12px;color:#e5c6c0;font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.hero-art-type strong{display:block;color:var(--ivory);font-family:var(--serif);font-size:clamp(54px,7vw,100px);font-weight:400;line-height:.82;letter-spacing:-.07em}
+.hero-art-type span{display:block;margin-top:22px;color:var(--red);font-size:11px;letter-spacing:.3em}
+.hero-stamp{position:absolute;right:25px;bottom:25px;z-index:2;color:rgba(241,238,231,.65);font-size:9px;letter-spacing:.2em;text-transform:uppercase}
+.portfolio{background:#1d1c1c}
+.portfolio-categories{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 35px}
+.category-tag{padding:10px 15px;border:1px solid var(--line);color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.work-card{min-width:0}
+.work-video{display:block;width:100%;aspect-ratio:9/16;max-height:620px;object-fit:cover;background:#292323}
+.video-frame{position:relative;overflow:hidden;background:#292323}
+.video-frame:after{position:absolute;inset:0;border:1px solid rgba(255,255,255,.08);content:"";pointer-events:none}
+.work-visual{position:relative;display:flex;min-height:340px;align-items:center;justify-content:center;overflow:hidden;background:#302727}
+.work-visual:before{position:absolute;width:55%;height:75%;border:1px solid rgba(255,255,255,.15);border-radius:48% 48% 8% 8%;content:"";transform:rotate(12deg)}
+.work-visual:after{position:absolute;width:38%;height:55%;border:1px solid rgba(255,255,255,.2);content:"";transform:rotate(-12deg)}
+.work-visual .visual-word{position:relative;z-index:1;max-width:90%;color:var(--ivory);font-family:var(--serif);font-size:clamp(38px,5vw,65px);line-height:.9;text-align:center;overflow-wrap:anywhere}
+.visual-watch{background:radial-gradient(circle at 55% 40%,#82766b,#34302c 55%,#1e1c1b)}
+.visual-september{background:radial-gradient(circle at 50% 35%,#a58d74,#4a3b32 58%,#201d1b)}
+.visual-video{background:radial-gradient(circle at 55% 45%,#6e4948,#2c2223 58%,#1c1a1a)}
+.visual-product{background:radial-gradient(circle at 50% 45%,#9b8070,#493a34 58%,#201c1a)}
+.work-info{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:18px 0 8px;border-bottom:1px solid var(--line)}
+.work-info h3{margin:0 0 7px;font-family:var(--serif);font-size:25px;font-weight:400}
+.work-info p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.work-number{color:var(--red);font-size:11px}
+.portfolio-note{max-width:720px;margin-top:35px;color:var(--muted);font-size:12px;line-height:1.7}
+.services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.service-card{min-width:0;min-height:270px;padding:35px;background:var(--bg)}
+.service-index{color:var(--red);font-size:11px}
+.service-card h3{margin:42px 0 15px;font-family:var(--serif);font-size:32px;font-weight:400}
+.service-card p{max-width:430px;margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.transformation{background:#211e1e}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.compare-item{position:relative;display:flex;min-height:340px;align-items:center;justify-content:center;overflow:hidden;background:#302b29}
+.compare-item:first-child{background:linear-gradient(145deg,#37322f,#242120)}
+.compare-item:last-child{background:radial-gradient(circle at 50% 35%,rgba(227,75,66,.4),transparent 40%),linear-gradient(145deg,#553536,#252020)}
+.compare-item span{position:relative;z-index:1;max-width:85%;color:var(--ivory);font-family:var(--serif);font-size:clamp(32px,4vw,54px);text-align:center;line-height:1}
+.compare-label{position:absolute;left:20px;top:20px;z-index:2;color:rgba(241,238,231,.75);font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+.compare-caption{max-width:650px;margin-top:25px;color:var(--muted);font-size:13px;line-height:1.7}
+.why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:35px}
+.why-item{padding-top:22px;border-top:1px solid var(--red)}
+.why-item h3{margin:18px 0 12px;font-family:var(--serif);font-size:27px;font-weight:400}
+.why-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.75}
+.pricing{background:#1d1c1c}
+.pricing-panel{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:45px;border:1px solid var(--line);background:#242121}
+.pricing-panel h3{margin:0 0 18px;font-family:var(--serif);font-size:clamp(32px,4vw,48px);font-weight:400}
+.pricing-panel p{max-width:520px;color:var(--muted);font-size:14px;line-height:1.75}
+.pricing-list{list-style:none;margin:0;padding:0}
+.pricing-list li{display:flex;justify-content:space-between;gap:20px;padding:17px 0;border-bottom:1px solid var(--line);font-size:13px}
+.pricing-list span:last-child{color:var(--red);text-align:right}
+.about-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:65px;align-items:center}
+.about-visual{position:relative;display:flex;min-height:480px;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,rgba(201,142,145,.5),transparent 35%),linear-gradient(145deg,#463332,#211d1d)}
+.about-visual:before{position:absolute;bottom:-12%;width:62%;height:80%;border-radius:50% 50% 0 0;background:linear-gradient(145deg,#9c7774,#302526);content:""}
+.about-visual:after{position:absolute;top:18%;width:32%;aspect-ratio:.78;border-radius:48% 48% 42% 42%;background:linear-gradient(145deg,#c89b8c,#684b48);content:""}
+.about-visual small{position:absolute;z-index:2;bottom:22px;left:22px;color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.about-copy h2{margin:18px 0 25px;font-family:var(--serif);font-size:clamp(42px,5vw,68px);font-weight:400;line-height:.98;letter-spacing:-.04em;overflow-wrap:anywhere}
+.about-copy p{color:var(--muted);font-size:15px;line-height:1.85}
+.about-signature{margin-top:30px;color:var(--red);font-family:var(--serif);font-size:30px;font-style:italic}
+.process-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:25px}
+.process-step{padding-top:20px;border-top:1px solid var(--line)}
+.process-step span{color:var(--red);font-size:11px}
+.process-step h3{margin:24px 0 12px;font-family:var(--serif);font-size:25px;font-weight:400}
+.process-step p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.faq{background:#1d1c1c}
+.faq-list{max-width:1000px!important;border-top:1px solid var(--line);margin-top:40px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-question{display:flex;width:100%;align-items:center;justify-content:space-between;gap:15px;padding:23px 0;border:0;background:transparent;color:var(--ivory);text-align:left;font-family:var(--serif);font-size:22px;cursor:pointer;min-width:0!important}
+.faq-question span:last-child{color:var(--red);font-family:var(--sans);font-size:26px;white-space:nowrap!important;flex-shrink:0!important;margin-left:20px!important;display:inline-block!important}
+.faq-toggle{color:var(--red);font-size:24px;font-weight:300;margin-left:15px}
+.faq-answer{display:none;max-width:700px;padding:0 35px 22px 0;color:var(--muted);font-size:14px;line-height:1.75}
+.faq-item.active .faq-answer{display:block}
+.final-cta{position:relative;overflow:hidden;padding:120px 0;background:radial-gradient(ellipse at 80% 50%,rgba(227,75,66,.22),transparent 38%),#211d1d;text-align:center}
+.final-cta h2{max-width:900px;margin:20px auto 25px;font-family:var(--serif);font-size:clamp(42px,7vw,86px);font-weight:400;line-height:.98;letter-spacing:-.05em;overflow-wrap:anywhere}
+.final-cta p{max-width:540px;margin:0 auto 32px;color:var(--muted);font-size:15px;line-height:1.7}
+.footer{padding:55px 0 30px;border-top:1px solid var(--line)}
+.footer-top{display:flex;justify-content:space-between;gap:35px;align-items:flex-start;padding-bottom:45px}
+.footer-brand{max-width:350px}
+.footer-brand .logo{display:inline-block;margin-bottom:18px}
+.footer-brand p{color:var(--muted);font-size:13px;line-height:1.7}
+.footer-links{display:flex;flex-wrap:wrap;gap:25px}
+.footer-links a{color:var(--muted);font-size:12px}
+.footer-links a:hover{color:var(--ivory)}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:22px;border-top:1px solid var(--line);color:#77716c;font-size:10px;letter-spacing:.08em}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.container{width:min(100% - 48px,var(--container))}.nav{gap:17px}.nav a{font-size:10px}.hero-grid{gap:30px}.hero-art{min-height:420px}.section{padding:90px 0}.about-grid{gap:35px}.about-visual{min-height:400px}.process-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.container{width:calc(100% - 36px);max-width:100%}
+.header-inner{min-height:68px}.logo{font-size:15px}.menu-toggle{display:block;flex:0 0 auto}.header-contact{display:none}
+.nav{position:absolute;top:68px;right:0;left:0;display:none;flex-direction:column;align-items:stretch;gap:0;padding:10px 18px 20px;border-bottom:1px solid var(--line);background:#1b1a1a}
+.nav.open{display:flex}.nav a{padding:15px 0;border-bottom:1px solid var(--line);font-size:11px}
+.hero{padding:55px 0 65px}.hero-grid{display:grid;grid-template-columns:1fr;flex-direction:column;align-items:stretch;gap:35px}
+.hero-copy{width:100%;max-width:100%;min-width:0;overflow-wrap:anywhere}
+.hero h1{width:100%;max-width:100%;margin:20px 0;font-size:clamp(43px,13vw,68px);line-height:.96;letter-spacing:-.06em;overflow-wrap:break-word;hyphens:none;word-break:keep-all}
+.hero-lead{width:100%;max-width:100%;margin:22px 0 25px;font-size:14px;overflow-wrap:anywhere}
+.hero-actions{display:flex;width:100%;max-width:100%;flex-direction:column;align-items:stretch;gap:10px}
+.hero-actions .button{width:100%;max-width:100%}.hero-note{max-width:100%;overflow-wrap:anywhere}
+.hero-art{width:100%;max-width:100%;min-width:0;min-height:290px}.hero-art-type{max-width:90%}
+.hero-art-type strong{font-size:clamp(44px,14vw,62px);overflow-wrap:anywhere}
+.section{padding:72px 0}.section-heading{margin-bottom:35px}
+.section-heading h2{font-size:clamp(39px,11vw,55px);overflow-wrap:anywhere}.section-heading p{font-size:14px}
+.portfolio-grid{grid-template-columns:minmax(0,1fr);gap:30px}
+.work-video{max-width:350px;width:100%;height:auto;margin:0 auto;display:block;border-radius:20px}
+.work-visual{min-height:290px}.work-info h3{font-size:23px}
+.services-grid{grid-template-columns:minmax(0,1fr)}.service-card{min-height:auto;padding:27px 23px}
+.service-card h3{margin-top:27px;font-size:28px}
+.compare-grid{grid-template-columns:minmax(0,1fr);gap:12px}.compare-item{min-height:250px}
+.why-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+.pricing-panel{grid-template-columns:minmax(0,1fr);gap:25px;padding:25px 20px}
+.pricing-list li{font-size:12px}
+.about-grid{grid-template-columns:minmax(0,1fr);gap:30px}.about-visual{min-height:350px}
+.about-copy h2{font-size:clamp(40px,11vw,55px)}.about-copy p{font-size:14px}
+.process-list{grid-template-columns:minmax(0,1fr);gap:25px}.process-step h3{margin-top:15px}
+.faq-question{font-size:19px}.final-cta{padding:85px 0}
+.final-cta h2{font-size:clamp(40px,11vw,58px)}.final-cta p{font-size:14px}
+.footer-top{flex-direction:column;gap:25px}.footer-links{gap:18px}
+.footer-bottom{flex-direction:column;gap:10px;line-height:1.5}
+.hero h1{word-break:keep-all!important;overflow-wrap:break-word!important;hyphens:none!important;font-size:32px!important;line-height:1.1!important}
+.hero-grid{display:flex!important;flex-direction:column!important}
+.hero-art{width:100%!important;max-width:100%!important;margin-top:30px!important}
+.hero-actions .button{width:100%!important;max-width:100%!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+.about-visual::before,.about-visual::after{content:none!important}
+.hero-art::before,.hero-art::after,.hero-art .circle,.hero-art [class*="circle"]{display:none!important}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: stretch;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.work-info {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 15px;
+}
+.work-visual::before,
+.work-visual::after,
+.work-card::before,
+.work-card::after {
+  display: none !important;
+}
+
+.work-visual {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent;
+}
+
+.work-visual img {
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-panel .faq-question span{white-space:nowrap;flex-shrink:0}
+.pricing-panel .faq-question span:first-child{white-space:normal;flex-shrink:1}
+}</style>
+</head>
+<body>
+<header class="header">
+<div class="container header-inner">
+<a class="logo" href="#top">NATA <span>NEVAA</span></a>
+<nav class="nav" id="mainNav">
+<a href="#portfolio">Работы</a><a href="#services">Возможности</a><a href="#about">Обо мне</a><a href="#process">Как работаю</a><a href="#faq">Вопросы</a>
+</nav>
+<a class="header-contact" href="#contacts">Связаться</a>
+<button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">☰</button>
+</div>
+</header>
+
+<main id="top">
+<section class="hero">
+<div class="container hero-grid">
+<div class="hero-copy">
+<div class="eyebrow">AI advertising / visual production</div>
+<h1>Реклама,<br>которую хочется <em>рассматри&shy;вать.</em></h1>
+<p class="hero-lead">Создаю рекламные фотографии и видеоролики с помощью нейросетей. Превращаю продукты в визуальные истории, которые выделяются, привлекают внимание и раскрывают характер бренда.</p>
+<div class="hero-actions">
+<a class="button" href="#contacts">Обсудить проект <span>↗</span></a>
+<a class="button button-secondary" href="#portfolio">Смотреть работы <span>↓</span></a>
+</div>
+<p class="hero-note">Для брендов, бизнеса, экспертов и тех, кому нужен выразительный визуальный контент.</p>
+</div>
+<div class="hero-art" aria-label="Визуальная композиция NATA NEVAA">
+<video src="../images/Men916.mp4" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; border-radius:8px;"></video>
+</div>
+</div>
+</section>
+
+<section class="section portfolio" id="portfolio">
+<div class="container">
+<div class="section-heading reveal">
+<div class="eyebrow">Selected works</div>
+<h2>Не просто картинка.<br><span class="accent">Визуальная идея.</span></h2>
+<p>Рекламные видео, продуктовые визуалы и AI-портреты. Здесь собраны разные форматы, с которыми я работаю.</p>
+</div>
+<div class="portfolio-categories reveal"><span class="category-tag">Product AI</span><span class="category-tag">Video AI</span><span class="category-tag">AI Portraits</span></div>
+
+<div class="portfolio-grid">
+<article class="work-card reveal">
+<div class="video-frame">
+<video class="work-video" controls playsinline preload="metadata" muted loop aria-label="Рекламное видео блеска для губ">
+<source src="../images/lip-gloss-video.mp4" type="video/mp4">
+Ваш браузер не поддерживает воспроизведение видео.
+</video>
+</div>
+<div class="work-info"><div><h3>Реклама блеска для губ</h3><p>Рекламный видеоролик / Beauty</p></div><span class="work-number">01</span></div>
+</article>
+
+<article class="work-card reveal">
+<div class="video-frame">
+<video class="work-video" controls playsinline preload="metadata" muted loop aria-label="AI beauty-портрет">
+<source src="../images/ai-beauty-portrait-video.mp4" type="video/mp4">
+Ваш браузер не поддерживает воспроизведение видео.
+</video>
+</div>
+<div class="work-info"><div><h3>Beauty AI-визуал</h3><p>Видеопортрет / Creative beauty</p></div><span class="work-number">02</span></div>
+</article>
+
+<article class="work-card reveal">
+<div class="video-frame">
+<video class="work-video" controls playsinline preload="metadata" muted loop aria-label="Рекламное видео наручных часов">
+<source src="../images/watch-video.mp4" type="video/mp4">
+Ваш браузер не поддерживает воспроизведение видео.
+</video>
+</div>
+<div class="work-info"><div><h3>Реклама наручных часов</h3><p>Рекламный видеоролик / Accessories</p></div><span class="work-number">03</span></div>
+</article>
+
+<article class="work-card reveal">
+<div class="video-frame">
+<video class="work-video" controls playsinline preload="metadata" muted loop aria-label="Видео с виртуальным ведущим">
+<source src="../images/virtual-host-video.mp4" type="video/mp4">
+Ваш браузер не поддерживает воспроизведение видео.
+</video>
+</div>
+<div class="work-info"><div><h3>Виртуальный ведущий</h3><p>Видео с цифровым персонажем</p></div><span class="work-number">04</span></div>
+</article>
+
+<article class="work-card reveal">
+  <div class="work-visual">
+    <img src="../images/onesept.jpg" alt="Рекламная кампания 1 сентября" style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
+  </div>
+  <div class="work-info">
+    <div>
+      <h3>Первое сентября</h3>
+      <p>AI-фотография / Детский образ</p>
+    </div>
+    <span class="work-number">05</span>
+  </div>
+</article>
+
+<article class="work-card reveal">
+  <div class="work-visual">
+    <img src="../images/sushposle.jpg" alt="Визуал для карточки товара" style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
+  </div>
+  <div class="work-info">
+    <div>
+      <h3>Визуал для карточки товара</h3>
+      <p>Предметная AI-фотография / E-commerce</p>
+    </div>
+    <span class="work-number">06</span>
+  </div>
+</article>
+
+<p class="portfolio-note">Портфолио будет постепенно пополняться новыми рекламными концепциями и проектами. Видео можно просматривать прямо на сайте — нажмите кнопку воспроизведения.</p>
+</div><section class="section" id="compare">
+  <div class="container">
+    <div class="section-heading reveal">
+      <div class="eyebrow">Before & After</div>
+      <h2>Один продукт.<br><span class="accent">Совсем другое впечатление.</span></h2>
+      <p>Исходный материал и новая визуальная история, созданная с помощью AI</p>
+    </div>
+    <div class="compare-grid reveal">
+      <div class="compare-item">
+        <img src="../images/sergi.jpg" alt="Исходное фото сережек" style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
+        <div style="position:absolute; bottom:15px; left:15px; background:rgba(0,0,0,0.7); color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:500;">Исходный материал</div>
+      </div>
+      <div class="compare-item">
+        <img src="../images/sergiposle.JPG" alt="Результат обработки сережек" style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
+        <div style="position:absolute; bottom:15px; left:15px; background:rgba(255,80,50,0.9); color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:500;">Новая визуальная история</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+<div class="container">
+<div class="section-heading reveal"><div class="eyebrow">What I create</div><h2>Ваш продукт.<br>Моя идея. <span class="accent">Новая история.</span></h2><p>Подбираю формат под задачу: от одного выразительного кадра до полноценной визуальной концепции для бренда.</p></div>
+<div class="services-grid">
+<article class="service-card reveal"><span class="service-index">01 / PRODUCT AI</span><h3>Рекламная фотография</h3><p>Предметные изображения для косметики, парфюмерии, одежды, аксессуаров, украшений, товаров для дома и других категорий.</p></article>
+<article class="service-card reveal"><span class="service-index">02 / VIDEO AI</span><h3>Рекламные видеоролики</h3><p>Короткие видео для социальных сетей, презентации продукта, рекламных кампаний и визуального продвижения бренда.</p></article>
+<article class="service-card reveal"><span class="service-index">03 / AI PORTRAITS</span><h3>AI-фотосессии</h3><p>Визуальные образы для экспертов, личных брендов, социальных сетей и индивидуальных проектов.</p></article>
+<article class="service-card reveal"><span class="service-index">04 / CREATIVE PROJECTS</span><h3>Комплексные решения</h3><p>Разработка идеи и создание серии визуалов в единой стилистике: фотографии, видео и дополнительные материалы для коммуникации бренда.</p></article>
+</div>
+</div>
+</section>
+
+<section class="section" id="why">
+<div class="container">
+<div class="section-heading reveal"><div class="eyebrow">Why work with me</div><h2>Креатив — это не случайность.</h2></div>
+<div class="why-grid">
+<article class="why-item reveal"><span class="eyebrow">01 / IDEA</span><h3>Нестандартные концепции</h3><p>Не ограничиваюсь привычной предметной съёмкой. Ищу интересный образ, атмосферу и визуальный ход, который поможет продукту выделиться.</p></article>
+<article class="why-item reveal"><span class="eyebrow">02 / APPROACH</span><h3>Индивидуальная работа</h3><p>У каждого продукта свой характер и своя аудитория. Поэтому визуальная концепция создаётся под конкретную задачу, а не по одному шаблону.</p></article>
+<article class="why-item reveal"><span class="eyebrow">03 / MARKETING</span><h3>Взгляд маркетолога</h3><p>За плечами шесть лет работы в SMM. Я понимаю, что визуал должен не только нравиться, но и работать на коммуникацию бренда с аудиторией.</p></article>
+</div>
+</div>
+</section>
+
+<section class="section pricing" id="pricing">
+<div class="container">
+<div class="section-heading reveal"><div class="eyebrow">Services & pricing</div><h2>Формат под вашу задачу.</h2><p>Можно заказать отдельное изображение или видео, а можно обсудить комплексную работу над визуальным контентом.</p></div>
+<div class="pricing-panel reveal">
+<div><h3>Стоимость рассчитывается индивидуально</h3><p>Цена зависит от сложности идеи, количества материалов, требований к точности продукта и объёма работы. После обсуждения задачи я предложу подходящий формат и стоимость.</p><a class="button" href="#contacts">Обсудить задачу ↗</a></div>
+<div class="pricing-accordion">
+
+  <div class="pricing-panel reveal">
+  <div class="faq-list">
+    
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Тест-драйв · 1 рекламный визуал</span>
+        <span>2 500 ₽</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <ul>
+          <li>1 рекламный визуал продукта в AI-среде</li>
+          <li>2 варианта концепции на выбор</li>
+          <li>Исходник в высоком разрешении</li>
+          <li>Адаптация под Stories / Reels</li>
+          <li>Срок: 2–3 рабочих дня</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>AI-видеоролик до 30 секунд</span>
+        <span>4 500 ₽</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <ul>
+          <li>1 вертикальный ролик для Reels / VK Клипов / Shorts</li>
+          <li>3 варианта концепции и раскадровки</li>
+          <li>AI-генерация движения и смен кадров</li>
+          <li>Музыка, субтитры, плашки с названием бренда</li>
+          <li>Адаптации под все площадки</li>
+          <li>Срок: 4–5 рабочих дней</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Комплексный запуск</span>
+        <span>8 000 ₽</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <ul>
+          <li>3 рекламных визуала в единой концепции</li>
+          <li>1 вертикальный ролик до 30 секунд</li>
+          <li>Разработка креативной идеи под ваш продукт</li>
+          <li>Все адаптации под площадки</li>
+          <li>Приоритетная поддержка 7 дней после сдачи</li>
+          <li>Срок: 6–8 рабочих дней</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>AI-фотосессия продукта</span>
+        <span>от 8 000 ₽</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <ul>
+          <li>5–7 готовых изображений продукта в стилизованной среде</li>
+          <li>2 варианта концепции</li>
+          <li>Исходники в высоком разрешении</li>
+          <li>Срок: 2–3 рабочих дня</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+  </details>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="about">
+<div class="container about-grid">
+<div class="about-visual reveal"><img src="../images/my.JPG" alt="Nata Nevaa — AI-креатор, рекламная фотография и видео" style="width:100%;height:100%;object-fit:cover"></div>
+<div class="about-copy reveal">
+<div class="eyebrow">About me</div><h2>Красивого изображения уже недостаточно.</h2>
+<p>Меня зовут Ната. Шесть лет я веду социальные сети и изнутри знаю, как контент ведёт себя в ленте: какой кадр останавливает палец, а какой пролистывают не заметив. Поэтому работу я начинаю не с картинки, а с вопроса, что этот визуал должен сообщить зрителю.</p>
+<p><strong>Визуал с задачей, а не просто украшение.</strong> Каждый кадр привязан к маркетинговой цели: подчеркнуть пользу продукта, вызвать нужную эмоцию, подвести к заказу. Вы получаете не «красивые картинки», а рабочий инструмент для ленты, рекламы и карточек.</p>
+<p><strong>Путь под ключ без головной боли.</strong> Я беру на себя всё производство: идею, референсы, генерацию, отбор, доводку и подготовку файлов в нужных форматах. Вам не нужно разбираться в нейросетях — достаточно рассказать о продукте и задаче.</p>
+<p><strong>Предсказуемый процесс и честность до старта.</strong> Я заранее говорю, что генерация сделает уверенно, а что потребует ручной доработки. Никаких сюрпризов в середине проекта: вы всегда понимаете, что получите и в какой срок.</p>
+<p>Приходите с готовым брифом, референсом или просто с идеей в двух словах. Направление разработаем вместе — и в подарок вы получите взгляд на задачу со стороны маркетинга, а не только со стороны визуала.</p>
+<div class="about-signature">Nata Nevaa</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="process">
+<div class="container">
+<div class="section-heading reveal"><div class="eyebrow">Workflow</div><h2>От идеи до готового визуала.</h2><p>Работа начинается с понимания задачи. Дальше подбираем подходящую концепцию и согласовываем направление.</p></div>
+<div class="process-list">
+<article class="process-step reveal"><span>STEP 01</span><h3>Обсуждаем задачу</h3><p>Вы рассказываете о продукте, бренде и цели проекта. Можно прислать готовое ТЗ, идею или референсы.</p></article>
+<article class="process-step reveal"><span>STEP 02</span><h3>Разрабатываем концепцию</h3><p>Определяем визуальное направление, настроение, формат и ключевые детали будущей работы.</p></article>
+<article class="process-step reveal"><span>STEP 03</span><h3>Создаём материалы</h3><p>Работаю над изображениями или видео с учётом согласованной идеи и требований к результату.</p></article>
+<article class="process-step reveal"><span>STEP 04</span><h3>Передаю результат</h3><p>Вы получаете готовые материалы в согласованном формате для дальнейшего использования.</p></article>
+</div>
+</div>
+</section>
+
+<section class="section faq" id="faq">
+<div class="container">
+<div class="section-heading reveal"><div class="eyebrow">FAQ</div><h2>Что важно знать перед началом?</h2></div>
+<div class="faq-list reveal">
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Нужно ли иметь готовую идею?</span><span>+</span></button><div class="faq-answer">Нет. Можно прийти с готовой концепцией, референсом или только с описанием задачи. Я помогу разработать визуальное направление и предложу идеи для проекта.</div></div>
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Можно ли сохранить внешний вид продукта?</span><span>+</span></button><div class="faq-answer">Это зависит от задачи. Если важно точно передать упаковку, логотип, форму и другие характеристики, требования к сходству обсуждаются заранее. В других проектах можно использовать более свободную художественную интерпретацию.</div></div>
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>С какими товарами вы работаете?</span><span>+</span></button><div class="faq-answer">Косметика, парфюмерия, уходовые средства, одежда, обувь, аксессуары, украшения, товары для дома, интерьерные предметы, продукты питания и другие категории. Возможность работы с конкретным продуктом обсуждается индивидуально.</div></div>
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Вы работаете только с компаниями?</span><span>+</span></button><div class="faq-answer">Нет. Я работаю с бизнесом, брендами, небольшими проектами, экспертами и частными клиентами, которым нужны AI-фотографии или видеоконтент.</div></div>
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Можно заказать только один визуал?</span><span>+</span></button><div class="faq-answer">Да. Можно заказать отдельную фотографию, видеоролик, фотосессию или обсудить серию материалов для проекта.</div></div>
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Как узнать стоимость?</span><span>+</span></button><div class="faq-answer">Напишите мне и коротко опишите задачу. Стоимость зависит от формата, сложности и объёма работы. После обсуждения я смогу предложить подходящий вариант.</div></div>
+</div>
+</div>
+</section>
+
+<section class="final-cta">
+<div class="container reveal">
+<div class="eyebrow">Let's create something different</div>
+<h2>У вашего продукта может быть совершенно <span class="accent">другая визуальная история.</span></h2>
+<p>Расскажите, что хотите создать. Обсудим идею, подберём формат и найдём интересное визуальное решение.</p>
+<a class="button" href="#contacts">Обсудить проект ↗</a>
+</div>
+</section>
+</main>
+
+<footer class="footer" id="contacts">
+<div class="container">
+<div class="footer-top">
+<div class="footer-brand"><a class="logo" href="#top">NATA <span>NEVAA</span></a><p>AI-реклама, визуальные истории и креативные решения для продуктов, брендов и людей.</p></div>
+<div class="footer-links">
+  <a href="https://t.me/NataVladii" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
+  <a href="https://wa.me/79506395340" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+  <a href="https://vk.com/nata_vladii" target="_blank" rel="noopener noreferrer">ВКонтакте ↗</a>
+  <a href="https://instagram.com/nata_bru_" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+  <a href="mailto:n6ata@mail.ru">n6ata@mail.ru</a>
+</div>
+</div>
+<div class="footer-bottom"><span>© <span id="currentYear"></span> NATA NEVAA</span><span>AI CREATIVE / VISUAL PRODUCTION</span></div>
+</div>
+</footer>
+
+<script>
+const menuToggle=document.getElementById("menuToggle");
+const mainNav=document.getElementById("mainNav");
+menuToggle.addEventListener("click",function(){
+const isOpen=mainNav.classList.toggle("open");
+menuToggle.setAttribute("aria-expanded",String(isOpen));
+menuToggle.textContent=isOpen?"×":"☰";
+});
+document.querySelectorAll(".nav a").forEach(function(link){
+link.addEventListener("click",function(){
+mainNav.classList.remove("open");
+menuToggle.setAttribute("aria-expanded","false");
+menuToggle.textContent="☰";
+});
+});
+document.querySelectorAll(".faq-question").forEach(function(button){
+  button.addEventListener("click",function(){
+    const item=button.closest(".faq-item");
+    const isActive=item.classList.contains("active");
+    document.querySelectorAll(".faq-item").forEach(function(faqItem){
+      faqItem.classList.remove("active");
+      faqItem.querySelector(".faq-question").setAttribute("aria-expanded","false");
+      const toggle=faqItem.querySelector(".faq-toggle");
+      if(toggle) toggle.textContent="+";
+    });
+    if(!isActive){
+      item.classList.add("active");
+      button.setAttribute("aria-expanded","true");
+      const toggle=button.querySelector(".faq-toggle");
+      if(toggle) toggle.textContent="−";
+    }
+  });
+});
+const revealElements=document.querySelectorAll(".reveal");
+if("IntersectionObserver" in window){
+const observer=new IntersectionObserver(function(entries,observerInstance){
+entries.forEach(function(entry){
+if(entry.isIntersecting){entry.target.classList.add("visible");observerInstance.unobserve(entry.target);}
+});
+},{threshold:.12});
+revealElements.forEach(function(element){observer.observe(element);});
+}else{revealElements.forEach(function(element){element.classList.add("visible");});}
+document.getElementById("currentYear").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
